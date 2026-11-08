@@ -4,12 +4,12 @@ SUNVAX is a responsive frontend demonstration of a solar-powered vaccine refrige
 
 ## Architecture
 
-- `app/`: Next.js App Router pages for all eight product areas.
+- `app/`: Next.js App Router pages for the product areas, including GPS tracking.
 - `components/app-shell.tsx`: responsive navigation, demo labeling, and shared layout.
 - `components/dashboard.tsx`: reusable data-driven page views, charts, tables, and interactive demonstration flows.
 - `components/ui.tsx`: shared page headings, cards, metric tiles, status pills, and controls.
 - `lib/types.ts`: reusable TypeScript device telemetry, device, alert, and user contracts.
-- `lib/demo-data.ts`: seeded demonstration fixtures and realistic timestamped history.
+- `lib/demo-data.ts`: seeded demonstration fixtures, approximate GPS coordinates, and timestamped history.
 - `lib/data-service.ts`: centralized data boundary. Replace the demo implementation with API-backed methods when a backend is ready.
 
 ## Run locally
@@ -57,3 +57,5 @@ Import this repository into Vercel and keep the detected Next.js framework prese
 The Master Website Development Specification mentioned in the task was not present in the project folder or attached as an accessible page during implementation. The supplied task brief was used as the requirements source. Device names, regions, sample alert scenarios, roles, and metric values are illustrative demonstration content and should be replaced or validated against the master specification before production use.
 
 Temperature safe range is shown as +2°C to +8°C for the demonstration. This frontend is not a medical device and must not be used to make vaccine handling decisions.
+
+GPS coordinates on the location tracking page are illustrative placeholders, not live device locations. Replace them with authenticated backend data when GPS hardware and the service are connected.
