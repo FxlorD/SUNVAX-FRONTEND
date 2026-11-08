@@ -38,9 +38,9 @@ export function LocationTracking(){
       <Panel>
         <PanelTitle title="Tracked units" sub="Select a unit to view its sample map position"/>
         <div className="space-y-2">
-          {devices.map(device=><button key={device.id} type="button" onClick={()=>setSelectedId(device.id)} className={`w-full rounded-xl border p-3 text-left transition ${selectedId===device.id?'border-[#80b99c] bg-[#f3faf6]':'border-slate-100 hover:bg-slate-50'}`}>
+          {devices.map(device=><button key={device.id} type="button" onClick={()=>setSelectedId(device.id)} className={`w-full rounded-xl border p-3 text-left transition ${selectedId===device.id?'border-[#8fc47a] bg-[#f3faf6]':'border-slate-100 hover:bg-slate-50'}`}>
             <div className="flex items-start justify-between gap-2"><span className="min-w-0"><b className="block truncate text-xs text-[#203a58]">{device.name}</b><span className="mt-1 block text-[10px] text-slate-400">{device.id} · {device.site}</span></span><StatusPill status={device.status}/></div>
-            <div className="mt-3 flex items-center gap-1.5 text-[10px] text-slate-500"><Navigation size={12} className="text-[#278763]"/>{device.location.latitude.toFixed(4)}, {device.location.longitude.toFixed(4)}<span className="ml-auto">±{device.location.accuracyMeters} m</span></div>
+            <div className="mt-3 flex items-center gap-1.5 text-[10px] text-slate-500"><Navigation size={12} className="text-[#16803d]"/>{device.location.latitude.toFixed(4)}, {device.location.longitude.toFixed(4)}<span className="ml-auto">±{device.location.accuracyMeters} m</span></div>
           </button>)}
         </div>
         {selected&&<div className="mt-4 rounded-xl bg-[#f6f8fa] p-3 text-[10px] leading-relaxed text-slate-500"><b className="text-slate-700">Selected: {selected.id}</b><br/>Temperature {selected.telemetry.temperature.toFixed(1)}°C · Battery {selected.telemetry.battery}%<br/>Location values shown here are placeholders for the frontend demonstration.</div>}
