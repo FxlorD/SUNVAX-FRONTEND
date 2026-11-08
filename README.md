@@ -4,12 +4,14 @@ SUNVAX is a responsive frontend demonstration of a solar-powered vaccine refrige
 
 ## Architecture
 
-- `app/`: Next.js App Router pages for the product areas, including GPS tracking.
+- `app/`: Next.js App Router pages for the product areas, including GPS tracking, inventory, and planned AI analytics.
 - `components/app-shell.tsx`: responsive navigation, demo labeling, and shared layout.
 - `components/dashboard.tsx`: reusable data-driven page views, charts, tables, and interactive demonstration flows.
 - `components/ui.tsx`: shared page headings, cards, metric tiles, status pills, and controls.
-- `lib/types.ts`: reusable TypeScript device telemetry, device, alert, and user contracts.
-- `lib/demo-data.ts`: seeded demonstration fixtures, approximate GPS coordinates, and timestamped history.
+- `components/inventory.tsx`: searchable, filterable, sortable demo stock lots with expiry and reorder indicators.
+- `components/ai-analytics.tsx`: AI analytics roadmap; explicitly no model or prediction is connected yet.
+- `lib/types.ts`: reusable TypeScript device telemetry, device, inventory, alert, and user contracts.
+- `lib/demo-data.ts`: seeded Nigeria demonstration fixtures, approximate GPS coordinates, stock lots, and timestamped history.
 - `lib/data-service.ts`: centralized data boundary. Replace the demo implementation with API-backed methods when a backend is ready.
 
 ## Run locally
@@ -22,7 +24,7 @@ Copy-Item .env.example .env.local
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The dashboard refreshes simulated device values every 15 seconds. Use **Refresh readings** to generate a new sample immediately. Changes to demo invitations, alert acknowledgements, and settings remain in memory for the current page session.
+Open [http://localhost:3000](http://localhost:3000). The dashboard refreshes simulated device values every 15 seconds. Use **Refresh readings** to generate a new sample immediately. Changes to demo invitations, alert acknowledgements, inventory entries, and settings remain in memory for the current page session.
 
 ## Build
 
@@ -58,4 +60,6 @@ The Master Website Development Specification mentioned in the task was not prese
 
 Temperature safe range is shown as +2°C to +8°C for the demonstration. This frontend is not a medical device and must not be used to make vaccine handling decisions.
 
-GPS coordinates on the location tracking page are illustrative placeholders, not live device locations. Replace them with authenticated backend data when GPS hardware and the service are connected.
+GPS coordinates on the location tracking page are illustrative placeholders for Nigerian cities, not live device locations. Replace them with authenticated backend data when GPS hardware and the service are connected.
+
+Inventory lots and expiry dates are demonstration records only. Connect them to an authorized inventory service before operational use. AI analytics is marked underway: the recommended design is to send device and inventory records to a backend for storage, validation, and analysis. The ESP32 can focus on collecting and securely transmitting readings; this frontend currently displays no AI-generated predictions or recommendations.
