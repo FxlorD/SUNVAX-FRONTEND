@@ -33,17 +33,17 @@ export function LocationTracking(){
           {selected&&<a href={mapLink} target="_blank" rel="noreferrer" className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-[11px] font-semibold text-slate-600 hover:bg-slate-50">Open map <ExternalLink size={13}/></a>}
         </div>
         {selected?<iframe key={selected.id} title={`Map showing ${selected.name}`} src={mapUrl} className="h-[430px] w-full rounded-xl border-0 bg-slate-100" loading="lazy"/>:<div className="grid h-[430px] place-items-center text-sm text-slate-400">No units to show.</div>}
-        <p className="px-2 pt-3 text-[10px] leading-relaxed text-slate-400">Demonstration map and approximate sample coordinates. Live GPS positions will appear after the devices and backend are connected.</p>
+        <p className="px-2 pt-3 text-[10px] leading-relaxed text-slate-400">The map shows the configured facility reference. Device-reported GPS positions require location hardware and a connected service.</p>
       </Panel>
       <Panel>
-        <PanelTitle title="Tracked units" sub="Select a unit to view its sample map position"/>
+        <PanelTitle title="Tracked units" sub="Select a unit to view its facility reference position"/>
         <div className="space-y-2">
           {devices.map(device=><button key={device.id} type="button" onClick={()=>setSelectedId(device.id)} className={`w-full rounded-xl border p-3 text-left transition ${selectedId===device.id?'border-[#8fc47a] bg-[#f3faf6]':'border-slate-100 hover:bg-slate-50'}`}>
             <div className="flex items-start justify-between gap-2"><span className="min-w-0"><b className="block truncate text-xs text-[#203a58]">{device.name}</b><span className="mt-1 block text-[10px] text-slate-400">{device.id} · {device.site}</span></span><StatusPill status={device.status}/></div>
             <div className="mt-3 flex items-center gap-1.5 text-[10px] text-slate-500"><Navigation size={12} className="text-[#16803d]"/>{device.location.latitude.toFixed(4)}, {device.location.longitude.toFixed(4)}<span className="ml-auto">±{device.location.accuracyMeters} m</span></div>
           </button>)}
         </div>
-        {selected&&<div className="mt-4 rounded-xl bg-[#f6f8fa] p-3 text-[10px] leading-relaxed text-slate-500"><b className="text-slate-700">Selected: {selected.id}</b><br/>Temperature {selected.telemetry.temperature.toFixed(1)}°C · Battery {selected.telemetry.battery}%<br/>Location values shown here are placeholders for the frontend demonstration.</div>}
+        {selected&&<div className="mt-4 rounded-xl bg-[#f6f8fa] p-3 text-[10px] leading-relaxed text-slate-500"><b className="text-slate-700">Selected: {selected.id}</b><br/>Temperature {selected.telemetry.temperature.toFixed(1)}°C · Battery {selected.telemetry.battery}%<br/>Device GPS updates will replace the facility reference after the unit is connected.</div>}
       </Panel>
     </div>
   </>;

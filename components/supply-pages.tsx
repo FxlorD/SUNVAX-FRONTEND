@@ -1,0 +1,17 @@
+import Link from 'next/link';
+import {ArrowUpRight,Building2,ClipboardList,MapPinned,PackageCheck,Truck} from 'lucide-react';
+import {getDevices} from '@/lib/data-service';
+import {PageHeading,Panel,PanelTitle,StatusPill} from './ui';
+
+const cards=[
+ {title:'Vaccine Marketplace & Orders',copy:'Browse vaccines and prepare an order selection.',href:'/marketplace',icon:ClipboardList},
+ {title:'Inventory & Stock',copy:'Review stock quantities across facilities.',href:'/inventory',icon:PackageCheck},
+ {title:'Distribution & Deliveries',copy:'Coordinate movement of stock between facilities.',href:'/distribution',icon:Truck},
+ {title:'Facilities & Network',copy:'Review participating facilities and their device coverage.',href:'/facilities',icon:Building2},
+ {title:'Stock & Expiry Management',copy:'Review batch expiry dates and stock rotation.',href:'/expiry',icon:MapPinned},
+];
+export function SupplyChainHome(){return <><PageHeading title="Supply Chain" sub="Coordinate vaccine supply across all facilities."/><div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">{cards.map(({title,copy,href,icon:Icon})=><Link key={href} href={href} className="group rounded-2xl border border-[#e8edf1] bg-white p-5 shadow-[0_3px_15px_rgba(32,54,80,.025)] transition hover:-translate-y-0.5 hover:border-[#b8d7c1]"><div className="flex items-start justify-between"><div className="grid h-10 w-10 place-items-center rounded-xl bg-[#edf6e9] text-[#16803d]"><Icon size={19}/></div><ArrowUpRight size={16} className="text-slate-300 group-hover:text-[#16803d]"/></div><h2 className="mt-4 text-sm font-bold text-[#213751]">{title}</h2><p className="mt-2 text-xs leading-relaxed text-slate-500">{copy}</p></Link>)}</div></>}
+
+export function FacilitiesNetwork(){const devices=getDevices();return <><PageHeading title="Facilities & Network" sub="Review facility coverage and associated cold-chain units."/><div className="grid gap-4 md:grid-cols-2">{devices.map(device=><Panel key={device.id}><div className="flex items-start justify-between gap-3"><div><span className="text-[10px] font-bold uppercase tracking-wide text-[#16803d]">{device.region}</span><h2 className="mt-1 text-sm font-bold text-[#213751]">{device.site}</h2><p className="mt-1 text-[11px] text-slate-400">{device.name} · {device.id}</p></div><StatusPill status={device.status}/></div><div className="mt-4 grid grid-cols-2 gap-3 border-t border-slate-100 pt-4 text-xs"><div><span className="block text-slate-400">Temperature</span><b className="mt-1 block">{device.telemetry.temperature.toFixed(1)}°C</b></div><div><span className="block text-slate-400">Last report</span><b className="mt-1 block">{device.lastSeen}</b></div></div></Panel>)}</div></>}
+
+export function DistributionDeliveries(){return <><PageHeading title="Distribution & Deliveries" sub="Coordinate vaccine movements and delivery status between facilities."/><Panel><PanelTitle title="Deliveries" sub="Delivery records will appear here when a dispatch is created."/><div className="rounded-xl bg-[#f6f8fa] px-5 py-12 text-center"><Truck size={26} className="mx-auto text-slate-300"/><h2 className="mt-3 text-sm font-semibold text-slate-700">No deliveries to display</h2><p className="mx-auto mt-1 max-w-md text-xs leading-relaxed text-slate-400">Create a supply order and connect dispatch records to track departures, arrival times, and receiving facilities.</p></div></Panel></>}
