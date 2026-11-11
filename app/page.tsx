@@ -1,2 +1,2 @@
-import {AppShell} from '@/components/app-shell';import {Dashboard} from '@/components/dashboard';
-export default function Home(){return <AppShell><Dashboard page="overview"/></AppShell>}
+import {AppShell} from '@/components/app-shell';import {Dashboard} from '@/components/dashboard';import {ProductShowcase} from '@/components/product-showcase';
+export default function Home(){return <AppShell><Dashboard page="overview"/><ProductShowcase/></AppShell>}

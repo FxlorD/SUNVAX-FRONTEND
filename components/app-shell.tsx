@@ -2,8 +2,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import {usePathname,useRouter} from 'next/navigation';
-import {Activity,Sun,Monitor,TriangleAlert,ChartNoAxesCombined,Users,Settings,LayoutDashboard,Bell,Menu,X,ChevronDown,Leaf,MapPinned,Boxes,Sparkles,ShoppingCart,Truck,Building2,CalendarClock,Cloud,LogOut} from 'lucide-react';
+import {Activity,Sun,Monitor,TriangleAlert,ChartNoAxesCombined,Users,Settings,LayoutDashboard,Bell,Menu,X,Leaf,MapPinned,Boxes,Sparkles,ShoppingCart,Truck,Building2,CalendarClock,Cloud,LogOut} from 'lucide-react';
 import {useEffect,useState} from 'react';
+import {currentUser,signOut as supabaseSignOut} from '../lib/supabase-auth';
 
 type NavItem={label:string;href:string;icon:typeof Activity;badge?:string;tag?:string};
 type NavGroup={title:string;items:NavItem[];icon?:typeof Cloud;href?:string;badge?:string};
@@ -18,18 +19,11 @@ const groups:NavGroup[]=[
   {title:'SYSTEM MANAGEMENT',items:[{label:'Users & Roles',href:'/users',icon:Users},{label:'Settings',href:'/settings',icon:Settings}]},
 ];
 type Account={name:string;email:string;organization:string};
-const accountKey='sunvax-account';
-
 export function AppShell({children}:{children:React.ReactNode}){
   const path=usePathname();const router=useRouter();const [open,setOpen]=useState(false);const [account,setAccount]=useState<Account|null>(null);const [ready,setReady]=useState(false);
-  useEffect(()=>{
-    const saved=localStorage.getItem(accountKey);let profile:Account|null=null;
-    if(saved){try{profile=JSON.parse(saved) as Account;if(!profile?.name||!profile?.organization)profile=null}catch{localStorage.removeItem(accountKey)}}
-    setAccount(profile);setReady(true);
-    if(!profile)router.replace('/signup');
-  },[router]);
+  useEffect(()=>{let active=true;currentUser().then(user=>{if(!active)return;const profile=user?{name:user.user_metadata?.full_name||user.email||'SUNVAX User',email:user.email||'',organization:user.user_metadata?.organization||'SUNVAX'}:null;setAccount(profile);setReady(true);if(!profile)router.replace('/signup')});return()=>{active=false}},[router]);
   const active=groups.flatMap(group=>group.items).find(item=>item.href===path)?.label??(path==='/supply-chain'?'Supply Chain':'Overview');
-  const signOut=()=>{localStorage.removeItem(accountKey);router.replace('/signup')};
+  const signOut=async()=>{await supabaseSignOut().catch(()=>{});setAccount(null);router.replace('/signup')};
   if(!ready||!account)return <div className="grid min-h-screen place-items-center bg-[#f5f7f9]"><div className="h-8 w-8 animate-spin rounded-full border-2 border-[#16803d] border-t-transparent"/></div>;
   const linkClass=(href:string)=>`flex min-h-9 items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium transition ${path===href?'bg-white text-[#15385c] shadow-sm':'text-white/75 hover:bg-white/10 hover:text-white'}`;
   return <div className="min-h-screen bg-[#f5f7f9] text-[#1d2b3d]">
